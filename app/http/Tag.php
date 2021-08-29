@@ -3,7 +3,7 @@
  * @Description   用户标签
  * @Author        lifetime
  * @Date          2021-08-25 12:39:18
- * @LastEditTime  2021-08-29 17:33:29
+ * @LastEditTime  2021-08-29 20:09:35
  * @LastEditors   lifetime
  */
 namespace app\http;
@@ -51,19 +51,14 @@ class Tag extends Http
      */
     public function read()
     {
-        $index = $this->request->route('id');
-        if (!is_numeric($index)) {
-            $this->fail(Msg::PARAMS_CHECK, '索引必须为整数');
-            return;
-        }
+        $uid = $this->request->route('uid');
+        $user = User::getByUid($uid);
 
-        $tags = User::tags($this->request->uid());
-
-        if (!isset($tags[$index])) {
+        if (empty($user)) {
             $this->fail(Msg::NOT_FOUND);
             return;
         }
-        $this->returnData(['name' => $tags[$index]]);
+        $this->returnArr($user->tag ?: []);
     }
 
     /**

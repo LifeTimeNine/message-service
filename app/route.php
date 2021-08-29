@@ -8,5 +8,8 @@ Route::resource('message', 'Message');
 
 Route::post('tag', 'Tag@save');
 Route::delete('tag', 'Tag@delete');
+Route::get('tag/:uid', 'Tag@read');
+
+Route::resource('user', 'User');
 
 Route::rule('/', 'Index@index');

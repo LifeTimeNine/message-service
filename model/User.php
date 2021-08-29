@@ -38,18 +38,6 @@ class User extends Basic
     }
 
     /**
-     * 获取用户标签
-     * @access public
-     * @param   string  $uid
-     * @return  array
-     */
-    public static function tags(string $uid)
-    {
-        $user = self::getByUid($uid);
-        return $user->tag ?: [];
-    }
-
-    /**
      * 连接
      * @access public
      * @param   int     $fd

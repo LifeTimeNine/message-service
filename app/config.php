@@ -23,7 +23,7 @@ return [
     // MongoDB相关配置
     'mongodb' => [
         'hostname' => 'localhost',
-        'database' => 'msg2',
+        'database' => 'msg',
         'username' => 'admin',
         'password' => 'admin',
         'hostport' => '27017',
