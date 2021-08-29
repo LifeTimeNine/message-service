@@ -1,0 +1,11 @@
+<?php
+
+use main\Route;
+use main\Service;
+
+define('ROOT_PATH', __DIR__);
+define('CONFIG_FILE', ROOT_PATH . '/app/config.php');
+
+include './vendor/autoload.php';
+
+(new Service())->run();

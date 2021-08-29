@@ -1,0 +1,26 @@
+{
+    "name": "lifetime/message-service",
+    "description": "Message Push Service",
+    "type": "project",
+    "authors": [
+        {
+            "name": "LifetimeNine",
+            "email": "2390904403@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-swoole": ">=4.5.8",
+        "lifetime/swoole-server": "^1.2",
+        "swoole/ide-helper": "^4.3",
+        "topthink/think-orm": "^2.0",
+        "mongodb/mongodb": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "main\\": "main",
+            "app\\": "app",
+            "model\\": "model"
+        }
+    }
+}
