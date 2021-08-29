@@ -22,6 +22,12 @@ class Http
      */
     public $response;
 
+    /**
+     * 分页参数Key
+     * @var array
+     */
+    protected $pageKey = ['page', 'list_rows'];
+
 
     /**
      * 构造函数
@@ -33,6 +39,12 @@ class Http
     {
         $this->request = $request;
         $this->server = $request->swooleServer();
+        if (isset($this->server->config['route']['page_index_key']) && !empty($this->server->config['route']['page_index_key'])) {
+            $this->pageKey[0] = $this->server->config['route']['page_index_key'];
+        }
+        if (isset($this->server->config['route']['page_list_rows_key']) && !empty($this->server->config['route']['page_list_rows_key'])) {
+            $this->pageKey[1] = $this->server->config['route']['page_list_rows_key'];
+        }
     }
 
     /**
@@ -128,6 +140,26 @@ class Http
     {
         $this->success([
             'data' => $data
+        ]);
+    }
+
+    /**
+     * 返回分页
+     * @access protected
+     * @param  mixed $model
+     */
+    protected function returnPage($model)
+    {
+        $this->success([
+            'page' => [
+                $this->pageKey[0] => (int)$this->request->get($this->pageKey[0], 1),
+                $this->pageKey[1] => (int)$this->request->get($this->pageKey[1], 10),
+                'count' => $model->count(),
+                'list' => $model->page(
+                    (int)$this->request->get($this->pageKey[0], 1),
+                    (int)$this->request->get($this->pageKey[1], 10)
+                )->select()->toArray(),
+            ]
         ]);
     }
 }

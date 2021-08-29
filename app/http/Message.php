@@ -15,8 +15,8 @@ class Message extends Http
      */
     public function index()
     {
-        $data = ModelMessage::select();
-        $this->success($data);
+        $model = ModelMessage::order('create_time', 'desc');
+        $this->returnPage($model);
     }
 
     /**
@@ -24,12 +24,17 @@ class Message extends Http
      */
     public function save()
     {
-        $type = $this->request->post('type');
+        $data = json_decode($this->request->getContent(), true);
+        if (json_last_error() > 0) {
+            $this->fail(MSG::PARAMS_CHECK, 'Body参数格式不正确');
+            return;
+        }
+        $type = $data['type']??null;
         if (!in_array($type, ModelMessage::MSG_TYPES)) {
             $this->fail(Msg::PARAMS_CHECK, '类型不存在');
             return;
         }
-        $title = $this->request->post('title');
+        $title = $data['title']??'';
         if (empty($title)) {
             $this->fail(Msg::PARAMS_CHECK, '消息标题不能为空');
             return;
@@ -38,7 +43,7 @@ class Message extends Http
             $this->fail(Msg::PARAMS_CHECK, '标题超出最大字数限制');
             return;
         }
-        $tag = $this->request->post('tag');
+        $tag = $data['tag']??null;
         if (!is_array($tag)) {
             $this->fail(Msg::PARAMS_CHECK, '标签类型不合法');
             return;
@@ -47,12 +52,22 @@ class Message extends Http
             $this->fail(Msg::PARAMS_CHECK, '至少要选择一个标签');
             return;
         }
-        $content = $this->request->post('content');
+        $uids = $data['uids']??[];
+        if (!is_array($uids)) {
+            $this->fail(Msg::PARAMS_CHECK, '用户标识格式不合法');
+            return;
+        }
+        $blackUids = $data['black_uids']??[];
+        if (!is_array($blackUids)) {
+            $this->fail(Msg::PARAMS_CHECK, '用户标识黑名单格式不合法');
+            return;
+        }
+        $content = $data['content']??'';
         if (empty($content)) {
             $this->fail(Msg::PARAMS_CHECK, '消息内容不能为空');
             return;
         }
-        $delay = $this->request->post('delay', 0);
+        $delay = $data['delay']??0;
         if ($type == ModelMessage::MSG_TYPE_DELAY && $delay <= 0) {
             $this->fail(Msg::PARAMS_CHECK, '延时消息延时时间必须大于0');
             return;
@@ -61,12 +76,14 @@ class Message extends Http
             'type' => (int)$type,
             'title' => $title,
             'tag' => $tag,
+            'uids' => $uids,
+            'black_uids' => $blackUids,
             'content' => $content,
             'delay' => (int)$delay
         ]);
         $this->server->task([
             'type' => Task::CREATE_MSG,
-            'data' => $msg->toArray(),
+            'data' => ['msg_id' => $msg->_id],
         ]);
         $this->success();
     }
@@ -84,5 +101,19 @@ class Message extends Http
         ModelMessage::destroy($id, true);
         User::update(['read_msg_id' => ['$pull', $id]], ['read_msg_id' => ['$eq', $id]]);
         $this->success();
+    }
+
+    /**
+     * 消息详情
+     */
+    public function read()
+    {
+        $id = $this->request->route('id');
+        $msg = ModelMessage::find($id);
+        if (empty($msg)) {
+            $this->fail(Msg::NOT_FOUND);
+            return;
+        }
+        $this->returnData($msg->toArray());
     }
 }

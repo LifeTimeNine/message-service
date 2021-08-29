@@ -3,7 +3,7 @@
  * @Description   异步事件类
  * @Author        lifetime
  * @Date          2021-08-26 16:55:26
- * @LastEditTime  2021-08-26 21:09:57
+ * @LastEditTime  2021-08-29 19:19:54
  * @LastEditors   lifetime
  */
 namespace app;
@@ -68,30 +68,37 @@ class Task
     public function createMsg(array $msg)
     {
         $event = Event::instance($this->server);
+        $msg = Message::find($msg['msg_id'])->toArray();
         switch($msg['type']) {
             case Message::MSG_TYPE_PERSISTENT:
             case Message::MSG_TYPE_INSTANT:
                 $users = User::where('fd', '<>', 0)
-                ->where(['tag' => $msg['tag']])
+                ->whereOr(['tag' => $msg['tag']])
+                ->whereNotIn('uid', $msg['black_uids'])
+                ->whereOr('uid', 'in', $msg['uids'])
                 ->select()
                 ->toArray();
                 foreach($users as $user) {
                     $event->noticeNewMsg($user['fd'], [
                         'title' => $msg['title'],
-                        'content' => $msg['content']
+                        'content' => $msg['content'],
+                        'create_time' => $msg['create_time']
                     ]);
                 }
                 break;
             case Message::MSG_TYPE_DELAY:
                 $this->server->after($msg['delay'] * 1000, function() use($msg, $event) {
                     $users = User::where('fd', '<>', 0)
-                    ->where(['tag' => $msg['tag']])
+                    ->whereOr(['tag' => $msg['tag']])
+                    ->whereNotIn('uid', $msg['black_uids'])
+                    ->whereOr('uid', 'in', $msg['uids'])
                     ->select()
                     ->toArray();
                     foreach($users as $user) {
                         $event->noticeNewMsg($user['fd'], [
                             'title' => $msg['title'],
-                            'content' => $msg['content']
+                            'content' => $msg['content'],
+                            'create_time' => $msg['create_time']
                         ]);
                     }
                 });
@@ -110,8 +117,10 @@ class Task
         
         $msgList = Message::where('type', Message::MSG_TYPE_PERSISTENT)
             ->whereNotIn('_id', $user->read_msg_id)
-            ->where(['tag' => $user->tag])
-            ->visible(['_id', 'title', 'content'])
+            ->whereOr(['tag' => $user->tag])
+            ->whereOr('uids', 'in', [$user->uid])
+            ->whereNotIn('black_uids', [$user->uid])
+            ->visible(['_id', 'title', 'content', 'create_time'])
             ->select()
             ->toArray();
         if (count($msgList) > 0) {

@@ -30,7 +30,7 @@ class Event extends \swoole\event\WebSocket
                 'background' => true,
             ]
         ];
-        $config = array_merge(Basic::DEFAULT_CONFIG['connections']['mongo'], []);
+        $config = array_merge(Basic::DEFAULT_CONFIG['connections']['mongo'], $server->config['mongodb']??[]);
 
         $uri = 'mongodb://';
         $uri .= $config['username']?:'';
@@ -39,7 +39,7 @@ class Event extends \swoole\event\WebSocket
 
         $client = new Client($uri);
         $msg = $client->selectDatabase($config['database']?:'msg');
-        $collection = $msg->selectCollection('user');
+        $collection = $msg->selectCollection((new User)->getName());
         foreach($collection->listIndexes() as $index) {
             if (isset($indexs[$index->getName()])) unset($indexs[$index->getName()]);
         }

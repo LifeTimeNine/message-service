@@ -136,24 +136,24 @@
         },
         {
             "name": "lifetime/swoole-server",
-            "version": "1.3.2",
-            "version_normalized": "1.3.2.0",
+            "version": "1.3.3",
+            "version_normalized": "1.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LifeTimeNine/swoole-server.git",
-                "reference": "966963fc552d044100a1baea7d942616a2aa5add"
+                "reference": "b34a2c9adeaf70263a31398959041e48bf7edfd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LifeTimeNine/swoole-server/zipball/966963fc552d044100a1baea7d942616a2aa5add",
-                "reference": "966963fc552d044100a1baea7d942616a2aa5add",
+                "url": "https://api.github.com/repos/LifeTimeNine/swoole-server/zipball/b34a2c9adeaf70263a31398959041e48bf7edfd8",
+                "reference": "b34a2c9adeaf70263a31398959041e48bf7edfd8",
                 "shasum": ""
             },
             "require": {
                 "ext-swoole": ">=4.5.8",
                 "php": ">=7.1"
             },
-            "time": "2021-08-27T05:29:48+00:00",
+            "time": "2021-08-29T07:15:58+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -171,7 +171,7 @@
             "description": "a simple encapsulation of Swoole services",
             "support": {
                 "issues": "https://github.com/LifeTimeNine/swoole-server/issues",
-                "source": "https://github.com/LifeTimeNine/swoole-server/tree/v1.3.2"
+                "source": "https://github.com/LifeTimeNine/swoole-server/tree/v1.3.3"
             },
             "install-path": "../lifetime/swoole-server"
         },

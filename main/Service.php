@@ -2,6 +2,7 @@
 
 namespace main;
 
+use model\Basic;
 use swoole\Config;
 use swoole\server\WebSocket;
 
@@ -37,10 +38,11 @@ class Service
 
     public function __construct($argv = null)
     {
-        require ROOT_PATH . "/app/route.php";
-        $config = require ROOT_PATH . "/app/config.php";
+        require_once ROOT_PATH . "/app/route.php";
+        $config = require_once ROOT_PATH . "/app/config.php";
         if (is_array($config)) $this->config = array_merge($this->config, $config);
         Route::setConfig($this->config['route']??[]);
+        Basic::setUserConfig($this->config['mongodb']??[]);
         
         if (null === $argv) {
             $argv = $_SERVER['argv'];
@@ -76,6 +78,7 @@ class Service
         $server = WebSocket::instance($config);
         $action = $this->getAction();
         if ($action == 'start') {
+            $server->setName('Message-Service');
             $server->initServer();
             $server->getServer()->config = $this->config;
         }

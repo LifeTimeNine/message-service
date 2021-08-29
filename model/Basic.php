@@ -9,6 +9,12 @@ class Basic extends Model
 {
     protected $pk = '_id';
 
+    protected $autoWriteTimestamp = true;
+    protected $createTime = 'create_time';
+    protected $updateTime = false;
+
+    protected $dateFormat = 'Y-m-d H:i:s';
+
     const DEFAULT_CONFIG = [
         'default' => 'mongo',
         'connections' => [
@@ -23,15 +29,19 @@ class Basic extends Model
             ],
         ],
     ];
+
+    protected static $userConfig = [];
+
+    public static function setUserConfig(array $config)
+    {
+        self::$userConfig = $config;
+    }
     
     protected static function init()
     {
-        $configArr = require_once CONFIG_FILE;
-        $configArr = $configArr??[];
-        $configArr = is_array($configArr)?$configArr:[];
         $db = new DbManager();
         $config = self::DEFAULT_CONFIG;
-        $config['connections']['mongo'] = array_merge($config['connections']['mongo'], $configArr);
+        $config['connections']['mongo'] = array_merge($config['connections']['mongo'], self::$userConfig);
         $db->setConfig($config);
         self::setDb($db);
     }
@@ -39,11 +49,5 @@ class Basic extends Model
     public function getIdAttr($value, $data)
     {
         return "{$data['_id']}";
-    }
-
-    public function getCtimeAttr($value, $data)
-    {
-        var_dump($data);
-        return $data['_id']->getTimestamp();
     }
 }

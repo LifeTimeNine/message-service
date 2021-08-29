@@ -37,6 +37,8 @@ class Message extends Basic
         'title' => 'string',
         'content' => 'string',
         'tag' => 'array',
+        'uids' => 'array',
+        'black_uids' => 'array',
         'delay' => 'int',
         'read_num' => 'int'
     ];
@@ -54,6 +56,8 @@ class Message extends Basic
             'title' => '',
             'content' => '',
             'tag' => [],
+            'uids' => [],
+            'black_uids' => [],
             'delay' => 0,
             'read_num' => 0
         ], $options);

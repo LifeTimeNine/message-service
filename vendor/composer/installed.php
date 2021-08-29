@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '1612a5ce1ebe908eb6f7884fce906d34f6ed6f1f',
     'name' => 'lifetime/message-service',
   ),
   'versions' => 
@@ -31,21 +31,21 @@
     ),
     'lifetime/message-service' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '1612a5ce1ebe908eb6f7884fce906d34f6ed6f1f',
     ),
     'lifetime/swoole-server' => 
     array (
-      'pretty_version' => '1.3.2',
-      'version' => '1.3.2.0',
+      'pretty_version' => '1.3.3',
+      'version' => '1.3.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '966963fc552d044100a1baea7d942616a2aa5add',
+      'reference' => 'b34a2c9adeaf70263a31398959041e48bf7edfd8',
     ),
     'mongodb/mongodb' => 
     array (

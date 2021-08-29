@@ -35,7 +35,7 @@ final class Versions
     const VERSIONS          = array (
   'composer/package-versions-deprecated' => '1.11.99.3@fff576ac850c045158a250e7e27666e146e78d18',
   'jean85/pretty-package-versions' => '1.6.0@1e0104b46f045868f11942aea058cd7186d6c303',
-  'lifetime/swoole-server' => '1.3.2@966963fc552d044100a1baea7d942616a2aa5add',
+  'lifetime/swoole-server' => '1.3.3@b34a2c9adeaf70263a31398959041e48bf7edfd8',
   'mongodb/mongodb' => '1.8.0@953dbc19443aa9314c44b7217a16873347e6840d',
   'psr/log' => '1.1.4@d49695b909c3b7628b6289db5479a1c204601f11',
   'psr/simple-cache' => '1.0.1@408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
@@ -43,7 +43,7 @@ final class Versions
   'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
   'topthink/think-helper' => 'v3.1.5@f98e3ad44acd27ae85a4d923b1bdfd16c6d8d905',
   'topthink/think-orm' => 'v2.0.44@5d3d5c1ebf8bfccf34bacd90edb42989b16ea409',
-  'lifetime/message-service' => '1.0.0+no-version-set@',
+  'lifetime/message-service' => 'dev-main@1612a5ce1ebe908eb6f7884fce906d34f6ed6f1f',
 );
 
     private function __construct()
