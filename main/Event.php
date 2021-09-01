@@ -132,4 +132,9 @@ class Event extends \swoole\event\WebSocket
             User::update(['fd' => 0], ['fd' => $fd]);
         }
     }
+
+    public static function onShutdown($server)
+    {
+        User::where('fd', '>', 0)->update(['fd' => 0]);
+    }
 }
