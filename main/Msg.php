@@ -9,9 +9,12 @@ class Msg
     const PARAMS_CHECK      = 1002;
     const NOT_FOUND         = 1003;
 
+    const DATA_PARSE_FAIL   = 2001;
+    const EVENT_NOT_FOUND   = 2002;
+
     protected static $msg = [
         self::DEFAULT_MSG   => '操作失败，请重试',
-        self::AUTH_FAIL     => '认证失败，请检查参数',
+        self::AUTH_FAIL     => '签名验证失败，请检查参数',
         self::NOT_FOUND     => '资源不存在',
     ];
 

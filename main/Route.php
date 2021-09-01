@@ -65,7 +65,7 @@ class Route
             $response->status(404)->end(self::$config['msg_404']);
             return;
         }
-        if ($routeItem->getCheckToken() && Auth::http($this->request) == false) {
+        if ($routeItem->getCheckSign() && Auth::http($this->request) == false) {
             $response = new Response($this->request->fd());
             $response->status(401)->end(self::$config['msg_401']);
             return;
@@ -121,11 +121,11 @@ class Route
      * @param   string  $rule       路由规则
      * @param   string  $routo      路由地址
      * @param   string  $method     请求类型
-     * @param   bool    $checkToken 是否验证token
+     * @param   bool    $checkSign 是否验证token
      */
-    public static function rule(string $rule, string $route, string $method = '*', bool $checkToken = true)
+    public static function rule(string $rule, string $route, string $method = '*', bool $checkSign = false)
     {
-        self::$routes[] = new RouteItem($rule, $route, $method, $checkToken);
+        self::$routes[] = new RouteItem($rule, $route, $method, $checkSign);
     }
 
     /**
@@ -133,11 +133,11 @@ class Route
      * @access public
      * @param string $rule  路由规则
      * @param string $route 路由地址
-     * @param bool   $checkToken 是否验证token
+     * @param bool   $checkSign 是否验证token
      */
-    public static function get(string $rule, string $route, bool $checkToken = true)
+    public static function get(string $rule, string $route, bool $checkSign = false)
     {
-        self::rule($rule, $route, 'GET', $checkToken);
+        self::rule($rule, $route, 'GET', $checkSign);
     }
 
     /**
@@ -145,11 +145,11 @@ class Route
      * @access public
      * @param string $rule  路由规则
      * @param string $route 路由地址
-     * @param bool   $checkToken 是否验证token
+     * @param bool   $checkSign 是否验证token
      */
-    public static function post(string $rule, string $route, bool $checkToken = true)
+    public static function post(string $rule, string $route, bool $checkSign = false)
     {
-        self::rule($rule, $route, 'POST', $checkToken);
+        self::rule($rule, $route, 'POST', $checkSign);
     }
 
     /**
@@ -157,11 +157,11 @@ class Route
      * @access public
      * @param string $rule  路由规则
      * @param string $route 路由地址
-     * @param bool   $checkToken 是否验证token
+     * @param bool   $checkSign 是否验证token
      */
-    public static function put(string $rule, string $route, bool $checkToken = true)
+    public static function put(string $rule, string $route, bool $checkSign = false)
     {
-        self::rule($rule, $route, 'PUT', $checkToken);
+        self::rule($rule, $route, 'PUT', $checkSign);
     }
 
     /**
@@ -169,11 +169,11 @@ class Route
      * @access public
      * @param string $rule  路由规则
      * @param string $route 路由地址
-     * @param bool   $checkToken 是否验证token
+     * @param bool   $checkSign 是否验证token
      */
-    public static function delete(string $rule, string $route, bool $checkToken = true)
+    public static function delete(string $rule, string $route, bool $checkSign = false)
     {
-        self::rule($rule, $route, 'DELETE', $checkToken);
+        self::rule($rule, $route, 'DELETE', $checkSign);
     }
 
     /**
@@ -181,12 +181,12 @@ class Route
      * @access public
      * @param   string  $rule   路由规则
      * @param   string  $toute  路由地址
-     * @param bool   $checkToken 是否验证token
+     * @param bool   $checkSign 是否验证token
      */
-    public static function resource(string $rule, string $route, bool $checkToken = true)
+    public static function resource(string $rule, string $route, bool $checkSign = false)
     {
         foreach(self::$rest as $item) {
-            self::rule($rule . $item[1], $route . '@' . $item[2], $item[0], $checkToken);
+            self::rule($rule . $item[1], $route . '@' . $item[2], $item[0], $checkSign);
         }
     }
 

@@ -3,7 +3,7 @@
  * @Description   Token 验证类
  * @Author        lifetime
  * @Date          2021-08-25 12:06:08
- * @LastEditTime  2021-08-29 18:16:37
+ * @LastEditTime  2021-09-01 10:21:01
  * @LastEditors   lifetime
  */
 
@@ -28,7 +28,8 @@ class Auth
             ]) ?
                 json_encode($request->post(), JSON_FORCE_OBJECT|JSON_UNESCAPED_UNICODE) :
                 $request->getContent(),
-            $request->header('timestamp')
+            $request->header('timestamp'),
+            md5($request->config('secret'))
         ];
         $signStr = implode("\n", $signBody) . "\n";
         $sign = base64_encode($signStr);
@@ -42,6 +43,9 @@ class Auth
     {
         $user = User::getByToken($request->get('token'));
         if (empty($user)  || $user->expire < time()) return false;
+        if ($user->fd > 0 && $request->swooleServer()->isEstablished($user->fd)) {
+            $request->swooleServer()->disconnect($user->fd);
+        }
         $request->setUid($user->uid);
         return true;
     }

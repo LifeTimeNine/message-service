@@ -41,10 +41,10 @@ class RouteItem
     protected $options = [];
 
     /**
-     * 是否验证Token
+     * 是否验证签名
      * @var bool
      */
-    protected $checkToken = true;
+    protected $checkSign = true;
 
     /**
      * 构造函数
@@ -52,14 +52,14 @@ class RouteItem
      * @param   string  $rule   路由规则
      * @param   string  $routo  路由地址
      * @param   string  $method 请求类型
-     * @param   bool    $checkToken 是否验证token
+     * @param   bool    $checkSign 是否验证签名
      */
-    public function __construct(string $rule, string $route, string $method = '*', bool $checkToken = true)
+    public function __construct(string $rule, string $route, string $method = '*', bool $checkSign = true)
     {
         $this->setRule($rule);
         $this->route = $route;
         $this->method = $method;
-        $this->checkToken = $checkToken;
+        $this->checkSign = $checkSign;
 
         $this->parseRule();
     }
@@ -139,12 +139,12 @@ class RouteItem
     }
 
     /**
-     * 获取当前路由是否验证Token
+     * 获取当前路由是否验证签名
      * @access public
      * @return bool
      */
-    public function getCheckToken()
+    public function getCheckSign()
     {
-        return $this->checkToken;
+        return $this->checkSign;
     }
 }

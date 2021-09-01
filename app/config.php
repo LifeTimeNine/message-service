@@ -1,13 +1,15 @@
 <?php
 
 return [
+    // 系统签名秘钥
+    'secret' => 'secret_dev',
     // 服务器相关配置
     'server' => [
         'host' => '0.0.0.0', // 监听地址
         'port' => 9501, // 监听端口
         'worker_num' => 1, // 工作进程数量
         'task_worker_num' => 1, // 任务进程数量
-        'daemonize' => false, // 协程化
+        'daemonize' => false, // 常驻进程
         'pid_file' => '', // pid文件路径
     ],
     // 路由相关配置
@@ -22,10 +24,10 @@ return [
     ],
     // MongoDB相关配置
     'mongodb' => [
-        'hostname' => 'localhost',
-        'database' => 'msg',
-        'username' => 'admin',
-        'password' => 'admin',
-        'hostport' => '27017',
+        'hostname' => 'localhost', // 数据库地址
+        'database' => 'msg', // 数据库名称
+        'username' => 'admin', // 用户名
+        'password' => 'admin', // 密码
+        'hostport' => '27017', // 端口
     ],
 ];

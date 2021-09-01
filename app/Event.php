@@ -3,11 +3,12 @@
  * @Description   WebSocket 事件
  * @Author        lifetime
  * @Date          2021-08-26 18:16:48
- * @LastEditTime  2021-08-28 20:07:08
+ * @LastEditTime  2021-09-01 17:20:34
  * @LastEditors   lifetime
  */
 namespace app;
 
+use main\Msg;
 use model\Message;
 use model\User;
 
@@ -81,14 +82,18 @@ class Event
      * 错误消息
      * @access public
      * @param   int     $fd
+     * @param   int     $code
      * @param   string  $error
      */
-    public function noticeError(int $fd, string $error = 'Error')
+    public function noticeError(int $fd, int $code = 2000, string $error = 'Error')
     {
         if ($this->server->isEstablished($fd)) {
             $this->server->push($fd, json_encode([
                 'event' => self::NOTICE_ERROR,
-                'error' => $error
+                'data' => [
+                    'code' => $code,
+                    'error' => $error
+                ]
             ]));
         }
     }
@@ -104,7 +109,9 @@ class Event
         if ($this->server->isEstablished($fd)) {
             $this->server->push($fd, json_encode([
                 'event' => self::NOTICE_NEW_MSG,
-                'msg' => $msg
+                'data' => [
+                    'msg' => $msg
+                ]
             ]));
         }
     }
@@ -120,7 +127,9 @@ class Event
         if ($this->server->isEstablished($fd)) {
             $this->server->push($fd, json_encode([
                 'event' => self::NOTICE_NOT_READ_MSG,
-                'msg_list' => $msgList
+                'data' => [
+                    'msg_list' => $msgList
+                ]
             ]));
         }
     }
@@ -129,12 +138,13 @@ class Event
      * 已读消息上报
      * @access public
      * @param   int     $fd 
-     * @param   string  $msgId
+     * @param   array   $data
      */
-    public function readReport(int $fd, string $msgId)
+    public function readReport(int $fd, array $data)
     {
+        $msgId = $data['msg_id']??'';
         if (empty(Message::find($msgId))) {
-            $this->noticeError($fd, '消息不存在');
+            $this->noticeError($fd, Msg::NOT_FOUND, '消息不存在');
             return;
         }
         $readMsgId = User::getByFd($fd)->read_msg_id;

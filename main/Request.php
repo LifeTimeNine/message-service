@@ -3,7 +3,7 @@
  * @Description   请求类
  * @Author        lifetime
  * @Date          2021-08-22 12:18:34
- * @LastEditTime  2021-08-25 14:33:44
+ * @LastEditTime  2021-09-01 19:34:54
  * @LastEditors   lifetime
  */
 
@@ -356,6 +356,31 @@ class Request
     public function swooleServer()
     {
         return $this->swooleServer;
+    }
+
+    /**
+     * 获取配置
+     * @access public
+     * @param  string $name 数据名称
+     * @param  string $default 默认值
+     * @return mixed
+     */
+    public function config(string $name = '', $default = null)
+    {
+        $data = $this->swooleServer->config;
+        if ('' === $name) {
+            return $data;
+        }
+
+        foreach (explode('.', $name) as $val) {
+            if (isset($data[$val])) {
+                $data = $data[$val];
+            } else {
+                return $default;
+            }
+        }
+
+        return $data;
     }
 
     /**

@@ -10,7 +10,7 @@ class Auth extends Http
 {
     public function websocket()
     {
-        $secret = 'secret_dev';
+        $secret = $this->config('secret');
         $uid = $this->request->get('uid');
         $timestamp = $this->request->get('timestamp');
         $sign = $this->request->get('sign');

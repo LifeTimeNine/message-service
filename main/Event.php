@@ -107,14 +107,14 @@ class Event extends \swoole\event\WebSocket
         $data = json_decode($frame->data, true);
         $event = AppEvent::instance($server);
         if (json_last_error() > 0) {
-            $event->noticeError($frame->fd, '消息格式错误');
+            $event->noticeError($frame->fd, Msg::DATA_PARSE_FAIL, '消息格式错误');
             return;
         }
         if (empty($data['event']) || !in_array($data['event'], array_keys(AppEvent::EVENT_METHOD))) {
-            $event->noticeError($frame->fd, "事件 {$data['event']} 不存在");
+            $event->noticeError($frame->fd, Msg::EVENT_NOT_FOUND, "事件 {$data['event']} 不存在");
             return;
         }
-        call_user_func([$event, AppEvent::EVENT_METHOD[$data['event']]], $frame->fd, $data['msg_id']??'');
+        call_user_func([$event, AppEvent::EVENT_METHOD[$data['event']]], $frame->fd, $data['data']??[]);
     }
 
     public static function onTask($server, int $task_id, int $src_worker_id, $data)
