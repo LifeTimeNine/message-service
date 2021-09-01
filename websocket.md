@@ -11,7 +11,8 @@ MD5(用户标识) + MD5(时间戳) + MD5(系统签名秘钥)
 **请求URL:** http://{{host}}/auth/websocket
 **请求类型:** GET
 
-请求参数  
+请求参数
+
 参数名称 | 示例值 | 参数描述
  --- | --- | ---
 uid | user_1 | 用户唯一标识
@@ -23,7 +24,8 @@ sign | ac00d75b8850600a7dc2c2ded320eaf8 | 签名
   http://192.168.31.200:9501/auth/websocket?uid=user_1&timestamp=1630485655&sign=97ba4c350a23d8ffa9dea98926be8340
 ```
 
-返回参数  
+返回参数
+
 参数名称 | 示例值 | 参数描述
  --- | --- | ---
 code | 0 | 错误码 0表示正常

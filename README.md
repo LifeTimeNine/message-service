@@ -88,8 +88,9 @@ php service
 php service [action]
 ```
 支持的操作
+
 操作 | 描述
--- | --
+--- | ---
 start | 启动
 stop | 停止
 reload | 柔性重启
@@ -149,8 +150,9 @@ class Index extend \main\Http
 ```
 
 控制器建议继承 `\main\Http` 类，Http 中 封装了常用的获取信息和返回数据的方法。
+
 方法名 | 描述
--- | --
+--- | ---
 config | 获取配置文件的配置
 createResponse | 创建响应类
 success | 返回成功的响应信息
@@ -163,8 +165,9 @@ returnPage  | 返回分页数据
 
 ## 请求信息
 Request 对象将请求数据整理成一个类，可以通过相对应的方法获取相关参数。
+
 方法名 | 描述
--- | --
+--- | ---
 header | 获取当前请求的header参数
 server | 获取获取当前请求的Server参数
 cookie | 获取获取当前请求的Cookie参数
@@ -195,8 +198,9 @@ uid | 获取用户标识
 在控制器中使用 `$this->createResponse()` 来创建相应对象，调用`end()` 方法发送响应体，并结束请求处理。注意，执行end方法之后不能再有其他的响应。
 
 方法列表
+
 方法名 | 描述
--- | --
+--- | ---
 header | 设置响应头
 cookie | 设置cookie
 status | 设置响应状态码
